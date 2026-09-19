@@ -4,7 +4,7 @@ Comandos e procedimentos rápidos para administração de aplicações em VPS/Li
 
 ---
 
-# 🐳 DOCKER
+#  DOCKER
 
 ## Redes
 
@@ -84,7 +84,7 @@ docker compose up -d --build --force-recreate
 
 ---
 
-# 🗄️ MYSQL / MARIADB
+# MYSQL / MARIADB
 
 ## Restaurar SQL diretamente para um container
 
@@ -107,6 +107,43 @@ docker exec -i luksdev-db \
 O `-p` sem senha faz o MariaDB solicitar a senha.
 
 > Evitar colocar a senha diretamente no comando (`-pSENHA`), pois ela pode ficar registrada no histórico do shell ou aparecer em processos.
+
+---
+
+## Fazer o dump de database do container
+
+```bash
+docker exec mariadb mariadb-dump -u root -p \
+  --databases luksdev sitenovo \
+  --routines \
+  --triggers \
+  --events \
+  > backup-apps-$(date +%F).sql
+```
+
+
+
+## Criar usuario e banco de dados 
+
+```bash
+docker exec -it mariadb mariadb -u root -p
+```
+
+
+```bash
+CREATE DATABASE novosite
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'novosite'@'%'
+    IDENTIFIED BY 'uma-senha-bem-forte';
+
+GRANT ALL PRIVILEGES
+    ON novosite.*
+    TO 'novosite'@'%';
+
+FLUSH PRIVILEGES;
+```
 
 ---
 
@@ -154,6 +191,16 @@ sed -i \
 ---
 
 # 🔐 SSH
+
+Enviar arquivo de máquina local ara vps via ssh
+
+```bash
+scp arquivo.txt usuario@servidor:/caminho/destino/
+
+```
+
+
+---
 
 ## Criar túnel SSH
 

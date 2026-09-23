@@ -84,6 +84,16 @@ docker compose up -d --build --force-recreate
 
 ---
 
+### Verificar configuraões de um container (para recriar docker-compose por exemplo)
+
+```bash
+docker inspect uptime-kuma \
+    --format 'Image: {{.Config.Image}}
+Ports: {{json .HostConfig.PortBindings}}
+Mounts: {{json .Mounts}}
+Restart: {{.HostConfig.RestartPolicy.Name}}'
+```
+
 # MYSQL / MARIADB
 
 ## Restaurar SQL diretamente para um container

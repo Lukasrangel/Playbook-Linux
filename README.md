@@ -284,6 +284,27 @@ Usar quando realmente for necessário reiniciar o processo.
 
 ---
 
+## Debug de logs conexão ip que chegam no nginx
+
+No nginx.conf dentro de http{}
+
+```bash
+log_format realip_debug
+    'remote=$remote_addr '
+    'original=$realip_remote_addr '
+    'cf=$http_cf_connecting_ip '
+    'xff=$http_x_forwarded_for '
+    'host=$host '
+    'request="$request"';
+```
+
+No arquivo do site em server{}
+
+```bash
+access_log /var/log/nginx/neotube/realip-debug.log realip_debug;
+``
+
+---
 #  LINUX
 
 ## Adicionar usuário ao grupo sudo
